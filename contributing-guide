@@ -1,0 +1,295 @@
+# Contributing to Koda SSG
+
+First off, thank you for considering contributing to Koda SSG! It's people like you that make Koda SSG such a great tool.
+
+## Table of Contents
+
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
+- [Development Setup](#development-setup)
+- [Development Process](#development-process)
+- [Pull Request Process](#pull-request-process)
+- [Coding Standards](#coding-standards)
+- [Testing Guidelines](#testing-guidelines)
+- [Documentation](#documentation)
+- [Community](#community)
+
+## Code of Conduct
+
+This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [stephenfinnegan@tuta.com].
+
+## Getting Started
+
+### Finding Ways to Contribute
+
+1. Check the [Issues](https://github.com/stephenfinnegan/koda-ssg/issues) page:
+   - Issues labeled `good first issue` are perfect for beginners
+   - `help wanted` indicates issues needing attention
+   - `bug` marks confirmed bugs
+   - `enhancement` suggests new features
+
+2. Review the [Project Roadmap](ROADMAP.md) for planned features
+
+3. Share your ideas in [Discussions](https://github.com/stephenfinnegan/koda-ssg/discussions)
+
+## Development Setup
+
+### Prerequisites
+
+- Python 3.8 or newer
+- pip
+- git
+
+### Setting Up Development Environment
+
+1. Fork the Repository
+```bash
+# On GitHub.com, visit:
+# https://github.com/stephenfinnegan/koda-ssg
+# Click the 'Fork' button
+```
+
+2. Clone Your Fork
+```bash
+git clone git@github.com:your-username/koda-ssg.git
+cd koda-ssg
+```
+
+3. Set Up Development Environment
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On Linux/Mac:
+source venv/bin/activate
+# On Windows:
+.\venv\Scripts\activate
+
+# Install dependencies
+pip install -e ".[dev]"
+
+# Install pre-commit hooks
+pre-commit install
+```
+
+## Development Process
+
+### 1. Create a Branch
+
+```bash
+# Update main branch
+git checkout main
+git pull origin main
+
+# Create new branch
+git checkout -b feature/your-feature-name
+# or
+git checkout -b fix/your-bug-fix
+```
+
+### 2. Make Your Changes
+
+- Write your code
+- Add tests
+- Update documentation
+- Run tests locally
+
+### 3. Commit Your Changes
+
+Follow conventional commits:
+```bash
+# Format:
+type(scope): description
+
+# Examples:
+feat: add photo gallery support
+fix: resolve pagination issue
+docs: update installation guide
+test: add gallery unit tests
+```
+
+Types:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `style`: Formatting
+- `refactor`: Code restructuring
+- `test`: Adding tests
+- `chore`: Maintenance
+
+## Pull Request Process
+
+1. **Update Your Branch**
+```bash
+git checkout main
+git pull origin main
+git checkout your-branch
+git rebase main
+```
+
+2. **Push Your Changes**
+```bash
+git push origin your-branch
+```
+
+3. **Create Pull Request**
+- Go to GitHub
+- Click "Pull Request"
+- Fill in the template
+- Reference related issues
+
+4. **Review Process**
+- Wait for review
+- Address feedback
+- Update PR as needed
+- Request re-review
+
+## Coding Standards
+
+### Python Style Guide
+
+- Follow [PEP 8](https://www.python.org/dev/peps/pep-0008/)
+- Use [Black](https://github.com/psf/black) for formatting
+- Maximum line length: 88 characters
+- Use type hints
+
+### Example Code Style
+
+```python
+from typing import List, Optional
+from pathlib import Path
+
+def process_gallery(
+    gallery_path: Path,
+    options: Optional[dict] = None
+) -> List[dict]:
+    """
+    Process images in a gallery.
+
+    Args:
+        gallery_path: Path to gallery directory
+        options: Processing options
+
+    Returns:
+        List of processed image metadata
+    """
+    options = options or {}
+    results = []
+    
+    for image in gallery_path.glob("*.jpg"):
+        metadata = process_image(image)
+        results.append(metadata)
+    
+    return results
+```
+
+## Testing Guidelines
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=koda_ssg
+
+# Run specific test file
+pytest tests/test_gallery.py
+
+# Run tests by marker
+pytest -m "gallery"
+```
+
+### Writing Tests
+
+```python
+# test_gallery.py
+import pytest
+from koda_ssg.gallery import GalleryProcessor
+
+def test_gallery_creation():
+    """Test basic gallery creation."""
+    processor = GalleryProcessor()
+    result = processor.create_gallery("test_gallery")
+    assert result.name == "test_gallery"
+    assert result.images == []
+
+@pytest.mark.parametrize("size", [
+    (300, 300),
+    (800, 600),
+    (1024, 768),
+])
+def test_thumbnail_generation(size):
+    """Test thumbnail generation with various sizes."""
+    processor = GalleryProcessor()
+    thumbnail = processor.create_thumbnail("test.jpg", size)
+    assert thumbnail.size == size
+```
+
+## Documentation
+
+### Writing Documentation
+
+1. **Docstrings**
+```python
+def process_image(path: Path) -> dict:
+    """
+    Process an image file.
+
+    Args:
+        path: Path to image file
+
+    Returns:
+        dict: Processed image metadata
+
+    Raises:
+        ValueError: If file is not an image
+    """
+```
+
+2. **README Updates**
+- Keep installation instructions current
+- Document new features
+- Update examples
+
+3. **API Documentation**
+- Document public interfaces
+- Include type information
+- Provide usage examples
+
+## Community
+
+### Getting Help
+
+1. **Questions**
+   - Use [Discussions](https://github.com/stephenfinnegan/koda-ssg/discussions)
+   - Tag with appropriate category
+   - Provide context
+
+2. **Bug Reports**
+   - Use [Issues](https://github.com/stephenfinnegan/koda-ssg/issues)
+   - Follow bug report template
+   - Include reproducible example
+
+3. **Feature Requests**
+   - Use [Issues](https://github.com/stephenfinnegan/koda-ssg/issues)
+   - Follow feature request template
+   - Explain use case
+
+### Communication
+
+- Be respectful
+- Be clear and concise
+- Provide context
+- Be patient with responses
+
+## Recognition
+
+Contributors are recognized in:
+- Release notes
+- Contributors list
+- Special mentions for significant contributions
+
+Thank you for contributing to Koda SSG! 🎉
