@@ -1,0 +1,323 @@
+# Koda SSG Configuration Guide
+
+This guide explains all configuration options available in Koda SSG. Configuration is managed through `config.yml` in your site's root directory.
+
+## Basic Configuration
+
+### Site Settings
+
+```yaml
+# Basic site configuration
+site_name: "My Awesome Site"
+author: "Your Name"
+description: "A beautiful static site built with Koda SSG"
+base_url: "https://example.com"
+language: "en"
+timezone: "UTC"
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `site_name` | string | required | The name of your site |
+| `author` | string | "" | Site author name |
+| `description` | string | "" | Site description for SEO |
+| `base_url` | string | "/" | Base URL of your site |
+| `language` | string | "en" | Primary site language |
+| `timezone` | string | "UTC" | Site timezone |
+
+## Theme Configuration
+
+```yaml
+# Theme settings
+theme: minimal
+theme_settings:
+  colors:
+    primary: "#007bff"
+    secondary: "#6c757d"
+    background: "#ffffff"
+    text: "#212529"
+  fonts:
+    heading: "Roboto, sans-serif"
+    body: "Open Sans, sans-serif"
+  layout:
+    sidebar: right
+    container_width: "1200px"
+    show_author: true
+```
+
+### Available Themes
+
+- `minimal`: Clean, simple design
+- `developer`: Optimized for code and documentation
+- `writer`: Focus on typography and readability
+- `photo`: Gallery-focused layout
+- `docs`: Documentation theme
+- `magazine`: Rich media layout
+
+## Content Settings
+
+```yaml
+# Content configuration
+content:
+  posts_per_page: 10
+  excerpt_length: 200
+  default_category: "blog"
+  date_format: "%Y-%m-%d"
+  permalinks:
+    posts: "blog/:year/:month/:slug"
+    pages: ":slug"
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `posts_per_page` | integer | 10 | Posts per page for pagination |
+| `excerpt_length` | integer | 200 | Length of post excerpts |
+| `default_category` | string | "blog" | Default post category |
+| `date_format` | string | "%Y-%m-%d" | Date format string |
+
+## Gallery Configuration
+
+```yaml
+# Gallery settings
+gallery:
+  thumbnail_size:
+    width: 300
+    height: 300
+  large_size:
+    width: 1200
+    height: 1200
+  formats:
+    - jpg
+    - jpeg
+    - png
+    - gif
+  quality: 85
+  caption_file: "captions.yml"
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `thumbnail_size` | object | {width: 300, height: 300} | Thumbnail dimensions |
+| `large_size` | object | {width: 1200, height: 1200} | Large image dimensions |
+| `formats` | array | [jpg, jpeg, png, gif] | Supported image formats |
+| `quality` | integer | 85 | JPEG compression quality |
+
+## Comments Configuration
+
+```yaml
+# Comments settings (Giscus)
+comments:
+  enabled: true
+  giscus:
+    repo: "username/repo"
+    repo_id: "R_xxxxx"
+    category: "Comments"
+    category_id: "DIC_xxxxx"
+    mapping: "pathname"
+    reactions: true
+    metadata: false
+```
+
+## Search Configuration
+
+```yaml
+# Search settings
+search:
+  enabled: true
+  min_chars: 3
+  suggestions: 10
+  full_content: false
+  excludes:
+    - /tags/
+    - /categories/
+```
+
+## RSS Feed Configuration
+
+```yaml
+# RSS feed settings
+rss:
+  enabled: true
+  feed_name: "feed.xml"
+  posts_limit: 20
+  description: "Latest posts from my blog"
+```
+
+## Pagination Configuration
+
+```yaml
+# Pagination settings
+pagination:
+  enabled: true
+  items_per_page: 10
+  max_pages: 5
+  order_by: "date"
+  order: "desc"
+```
+
+## Advanced Configuration
+
+### URL Configuration
+
+```yaml
+# URL settings
+urls:
+  trailing_slash: true
+  lowercase: true
+  posts_path: "blog"
+  pages_path: "pages"
+  tags_path: "tags"
+  categories_path: "categories"
+```
+
+### Build Configuration
+
+```yaml
+# Build settings
+build:
+  output_dir: "_site"
+  cache_dir: ".cache"
+  clean_before: true
+  parallel: true
+  minify:
+    html: true
+    css: true
+    js: true
+```
+
+### Development Server
+
+```yaml
+# Development server settings
+server:
+  port: 8000
+  host: "localhost"
+  open_browser: true
+  watch:
+    - content
+    - static
+    - themes
+```
+
+## Example Complete Configuration
+
+```yaml
+# Complete config.yml example
+site_name: "My Tech Blog"
+author: "Jane Doe"
+description: "A blog about programming and technology"
+base_url: "https://example.com"
+language: "en"
+timezone: "UTC"
+
+theme: developer
+theme_settings:
+  colors:
+    primary: "#007bff"
+    secondary: "#6c757d"
+  fonts:
+    heading: "Roboto, sans-serif"
+    body: "Open Sans, sans-serif"
+  layout:
+    sidebar: right
+
+content:
+  posts_per_page: 10
+  excerpt_length: 200
+  date_format: "%Y-%m-%d"
+  permalinks:
+    posts: "blog/:year/:month/:slug"
+
+gallery:
+  thumbnail_size:
+    width: 300
+    height: 300
+  large_size:
+    width: 1200
+    height: 1200
+  quality: 85
+
+comments:
+  enabled: true
+  giscus:
+    repo: "username/repo"
+    repo_id: "R_xxxxx"
+    category: "Comments"
+
+search:
+  enabled: true
+  min_chars: 3
+  suggestions: 10
+
+rss:
+  enabled: true
+  feed_name: "feed.xml"
+  posts_limit: 20
+
+pagination:
+  enabled: true
+  items_per_page: 10
+  max_pages: 5
+
+build:
+  output_dir: "_site"
+  clean_before: true
+  minify:
+    html: true
+    css: true
+    js: true
+
+server:
+  port: 8000
+  host: "localhost"
+  open_browser: true
+```
+
+## Environment Variables
+
+You can also use environment variables in your configuration:
+
+```yaml
+site_name: ${SITE_NAME}
+base_url: ${BASE_URL}
+```
+
+Create a `.env` file:
+```bash
+SITE_NAME="My Site"
+BASE_URL="https://example.com"
+```
+
+## Validation
+
+Koda SSG validates your configuration on startup. Common validation errors:
+
+```bash
+# Missing required field
+Error: 'site_name' is required in config.yml
+
+# Invalid value type
+Error: 'posts_per_page' must be an integer
+
+# Invalid theme
+Error: Theme 'nonexistent' not found
+```
+
+## Best Practices
+
+1. **Version Control**:
+   - Commit `config.yml` to version control
+   - Use `.env` for sensitive data
+   - Include `.env.example` for reference
+
+2. **Organization**:
+   - Group related settings together
+   - Use comments for clarity
+   - Keep production config separate
+
+3. **Performance**:
+   - Enable minification in production
+   - Configure appropriate image sizes
+   - Use reasonable pagination limits
+
+Need help? Check our [Issues](issues/) or [Discussions](discussions/) pages.
