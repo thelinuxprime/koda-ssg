@@ -1,0 +1,479 @@
+# Koda SSG API Reference
+
+Complete API documentation for Koda SSG's public interfaces.
+
+## Table of Contents
+- [CLI Interface](#cli-interface)
+- [Site Generation](#site-generation)
+- [Content Processing](#content-processing)
+- [Gallery Management](#gallery-management)
+- [Theme System](#theme-system)
+- [Utility Functions](#utility-functions)
+
+## CLI Interface
+
+### Command Line Tools
+
+#### `koda init`
+Creates a new Koda SSG site.
+
+```python
+koda init [OPTIONS] DIRECTORY
+
+Options:
+  --theme TEXT      Initial theme [default: minimal]
+  --force          Overwrite existing files
+  --help          Show this message and exit
+```
+
+#### `koda build`
+Builds the static site.
+
+```python
+koda build [OPTIONS]
+
+Options:
+  --config PATH    Path to config file [default: config.yml]
+  --output PATH   Output directory [default: _site]
+  --clean        Clean output directory before build
+  --verbose      Enable verbose output
+  --help         Show this message and exit
+```
+
+#### `koda serve`
+Starts development server.
+
+```python
+koda serve [OPTIONS]
+
+Options:
+  --port INTEGER   Port number [default: 8000]
+  --host TEXT     Host address [default: localhost]
+  --watch        Enable auto-reload on changes
+  --help         Show this message and exit
+```
+
+## Site Generation
+
+### SiteGenerator
+
+Main class for generating static sites.
+
+```python
+from koda_ssg.generator import SiteGenerator
+
+class SiteGenerator:
+    """Handles static site generation."""
+    
+    def __init__(self, config: SiteConfig):
+        """
+        Initialize site generator.
+        
+        Args:
+            config (SiteConfig): Site configuration object
+        """
+        
+    def generate_site(self, pages: List[Dict[str, Any]]) -> None:
+        """
+        Generate static site from pages.
+        
+        Args:
+            pages: List of page objects
+        """
+        
+    def clean_output(self) -> None:
+        """Clean output directory."""
+```
+
+### SiteConfig
+
+Configuration dataclass for site settings.
+
+```python
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional, Dict, List
+
+@dataclass
+class SiteConfig:
+    """Site configuration settings."""
+    
+    site_name: str
+    theme: str
+    author: str
+    output_dir: Path
+    content_dir: Path
+    static_dir: Optional[Path] = None
+    base_url: str = "/"
+    metadata: Dict[str, str] = None
+    plugins: List[str] = None
+```
+
+## Content Processing
+
+### ContentParser
+
+Handles Markdown and frontmatter parsing.
+
+```python
+from koda_ssg.parser import ContentParser
+
+class ContentParser:
+    """Parse content files with frontmatter."""
+    
+    def __init__(self, content_dir: Path):
+        """
+        Initialize parser.
+        
+        Args:
+            content_dir: Content directory path
+        """
+    
+    def parse_file(self, file_path: Path) -> Dict[str, Any]:
+        """
+        Parse a content file.
+        
+        Args:
+            file_path: Path to content file
+            
+        Returns:
+            Dict containing parsed content and metadata
+        """
+    
+    def parse_frontmatter(self, content: str) -> Tuple[Dict[str, Any], str]:
+        """
+        Parse frontmatter from content.
+        
+        Args:
+            content: Raw content string
+            
+        Returns:
+            Tuple of (metadata, content)
+        """
+```
+
+## Gallery Management
+
+### GalleryProcessor
+
+Handles image processing and gallery generation.
+
+```python
+from koda_ssg.gallery import GalleryProcessor
+
+class GalleryProcessor:
+    """Process and manage image galleries."""
+    
+    def __init__(self, config: SiteConfig):
+        """
+        Initialize gallery processor.
+        
+        Args:
+            config: Site configuration
+        """
+    
+    def process_gallery(self, gallery_path: Path, gallery_name: str) -> Dict[str, Any]:
+        """
+        Process a gallery directory.
+        
+        Args:
+            gallery_path: Path to gallery directory
+            gallery_name: Name of gallery
+            
+        Returns:
+            Dict containing gallery metadata and processed images
+        """
+    
+    def process_image(self, image_path: Path, output_dir: Path) -> Dict[str, str]:
+        """
+        Process single image.
+        
+        Args:
+            image_path: Path to source image
+            output_dir: Output directory
+            
+        Returns:
+            Dict containing processed image paths
+        """
+```
+
+### ImageProcessor
+
+Handles image optimization and transformation.
+
+```python
+from koda_ssg.gallery import ImageProcessor
+
+class ImageProcessor:
+    """Process and optimize images."""
+    
+    def create_thumbnail(
+        self,
+        image_path: Path,
+        size: Tuple[int, int],
+        quality: int = 85
+    ) -> Path:
+        """
+        Create image thumbnail.
+        
+        Args:
+            image_path: Source image path
+            size: Target size (width, height)
+            quality: JPEG quality
+            
+        Returns:
+            Path to thumbnail
+        """
+    
+    def optimize_image(
+        self,
+        image_path: Path,
+        output_path: Path,
+        quality: int = 85
+    ) -> Path:
+        """
+        Optimize image for web.
+        
+        Args:
+            image_path: Source image path
+            output_path: Output path
+            quality: JPEG quality
+            
+        Returns:
+            Path to optimized image
+        """
+```
+
+## Theme System
+
+### ThemeManager
+
+Manages theme loading and processing.
+
+```python
+from koda_ssg.themes import ThemeManager
+
+class ThemeManager:
+    """Manage site themes."""
+    
+    def __init__(self, theme_dir: Path):
+        """
+        Initialize theme manager.
+        
+        Args:
+            theme_dir: Theme directory path
+        """
+    
+    def load_theme(self, theme_name: str) -> Theme:
+        """
+        Load theme by name.
+        
+        Args:
+            theme_name: Name of theme
+            
+        Returns:
+            Theme object
+        """
+    
+    def get_template(self, theme: Theme, template_name: str) -> Template:
+        """
+        Get theme template.
+        
+        Args:
+            theme: Theme object
+            template_name: Name of template
+            
+        Returns:
+            Jinja2 Template object
+        """
+```
+
+### Theme
+
+Theme configuration and metadata.
+
+```python
+@dataclass
+class Theme:
+    """Theme configuration."""
+    
+    name: str
+    version: str
+    author: str
+    description: str
+    templates_dir: Path
+    static_dir: Path
+    config: Dict[str, Any]
+```
+
+## Utility Functions
+
+### URL Handling
+
+```python
+from koda_ssg.utils import urls
+
+def generate_url(path: str, base_url: str = "/") -> str:
+    """
+    Generate URL from path.
+    
+    Args:
+        path: File path
+        base_url: Base URL
+        
+    Returns:
+        Generated URL
+    """
+
+def clean_url(url: str) -> str:
+    """
+    Clean and normalize URL.
+    
+    Args:
+        url: Raw URL
+        
+    Returns:
+        Cleaned URL
+    """
+```
+
+### File Operations
+
+```python
+from koda_ssg.utils import files
+
+def copy_static_files(
+    source_dir: Path,
+    target_dir: Path,
+    exclude: List[str] = None
+) -> None:
+    """
+    Copy static files.
+    
+    Args:
+        source_dir: Source directory
+        target_dir: Target directory
+        exclude: Patterns to exclude
+    """
+
+def ensure_dir(path: Path) -> None:
+    """
+    Ensure directory exists.
+    
+    Args:
+        path: Directory path
+    """
+```
+
+## Event System
+
+### EventManager
+
+Manages site generation events and hooks.
+
+```python
+from koda_ssg.events import EventManager
+
+class EventManager:
+    """Manage site events."""
+    
+    def register_handler(
+        self,
+        event: str,
+        handler: Callable[[Dict[str, Any]], None]
+    ) -> None:
+        """
+        Register event handler.
+        
+        Args:
+            event: Event name
+            handler: Handler function
+        """
+    
+    def emit(self, event: str, data: Dict[str, Any]) -> None:
+        """
+        Emit event.
+        
+        Args:
+            event: Event name
+            data: Event data
+        """
+```
+
+## Example Usage
+
+### Basic Site Generation
+
+```python
+from koda_ssg import SiteGenerator, SiteConfig
+from pathlib import Path
+
+# Configure site
+config = SiteConfig(
+    site_name="My Blog",
+    theme="minimal",
+    author="John Doe",
+    output_dir=Path("_site"),
+    content_dir=Path("content")
+)
+
+# Create generator
+generator = SiteGenerator(config)
+
+# Generate site
+generator.generate_site(pages)
+```
+
+### Gallery Processing
+
+```python
+from koda_ssg.gallery import GalleryProcessor
+from pathlib import Path
+
+# Initialize processor
+processor = GalleryProcessor(config)
+
+# Process gallery
+gallery = processor.process_gallery(
+    Path("content/galleries/vacation"),
+    "vacation"
+)
+```
+
+### Custom Theme
+
+```python
+from koda_ssg.themes import ThemeManager
+from pathlib import Path
+
+# Initialize theme manager
+theme_manager = ThemeManager(Path("themes"))
+
+# Load theme
+theme = theme_manager.load_theme("custom")
+
+# Get template
+template = theme_manager.get_template(theme, "post.html")
+```
+
+## Type Definitions
+
+```python
+# Common type aliases
+PathLike = Union[str, Path]
+JSONDict = Dict[str, Any]
+TemplateContext = Dict[str, Any]
+
+# Custom types
+class Metadata(TypedDict):
+    title: str
+    date: datetime
+    author: str
+    tags: List[str]
+    category: Optional[str]
+```
+
+Need help? Check:
+- [Example Code](examples/)
+- [Source Code](src/)
+- [Issues](issues/)
