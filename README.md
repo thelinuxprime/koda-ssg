@@ -124,7 +124,7 @@ gallery:
 ## 📖 Documentation
 
 For detailed documentation, check out:
-- [Getting Started Guide](docs/getting-started.md)
+- [Getting Started Guide](getting-started.md)
 - [Configuration Guide](docs/configuration.md)
 - [Theme Development](docs/themes.md)
 - [Gallery Guide](docs/galleries.md)
