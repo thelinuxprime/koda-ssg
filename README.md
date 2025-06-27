@@ -201,4 +201,4 @@ Special thanks to:
 
 ---
 
-Built with ❤️ by [Stephen Finnegan](https://github.com/stephenfinnegan)
+Built with ❤️ by [The Linux Prime](https://github.com/thelinuxprime)
